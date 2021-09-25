@@ -1,0 +1,32 @@
+@relation acidentes
+
+@attribute tipo_veiculo {carro, motocicleta, caminhao}
+@attribute cond_metereologicas {chuvoso, tempestade, limpo, nevoa}
+@attribute gravidade {leve, moderado, fatal}
+@attribute ocorre_acidente {Y,N}
+
+@data
+carro, chuvoso, 1848, Y
+carro, limpo, 1848, N
+carro, tempestade, 1848, N
+motocicleta, limpo, 2842, N
+carro, limpo, 1242, Y
+caminhao, chuvoso, 1848, Y
+caminhao, chuvoso, 1848, N
+motocicleta, tempestade, 2842, Y
+caminhao, chuvoso, 1848, Y
+carro, nevoa, 1242, Y
+carro, chuvoso, 1848, Y
+caminhao, chuvoso, 1848, Y
+carro, chuvoso, 1848, Y
+carro, limpo, 1848, N
+carro, tempestade, 1848, N
+motocicleta, nevoa, 2842, N
+carro, limpo, 1242, N
+carro, chuvoso, 1848, Y
+caminhao, chuvoso, 1848, N
+motocicleta, tempestade, 2842, Y
+caminhao, chuvoso, 1848, Y
+carro, chuvoso, 1848, Y
+carro, chuvoso, 1848, Y
+caminhao, tempestade, 1242, Y
