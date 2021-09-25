@@ -2,7 +2,7 @@
 
 @attribute tipo_veiculo {carro, motocicleta, caminhao}
 @attribute cond_metereologicas {chuvoso, tempestade, limpo, nevoa}
-@attribute gravidade {leve, moderado, fatal}
+@attribute rodovia NUMERIC
 @attribute ocorre_acidente {Y,N}
 
 @data
