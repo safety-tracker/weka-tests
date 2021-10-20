@@ -1,5 +1,7 @@
 package net.victorbetoni.wekatest;
 
+import net.victorbetoni.wekatest.csv.CSVDataSet;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,13 +9,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Random;
 
-public class Generator
-{
-    public static void main(String[] args)
-    {
+public class Generator {
+
+    public static final CSVDataSet PEOPLE_DATASET = new CSVDataSet.Loader(new File("src/main/resources/people.arff")).load();
+    public static final CSVDataSet VEIC_DATASET = new CSVDataSet.Loader(new File("src/main/resources/veic.arff")).load();
+    public static final CSVDataSet OCORRENCIAS_DATASET = new CSVDataSet.Loader(new File("src/main/resources/ocorrencias.arff")).load();
+
+    public static void main(String[] args) {
         File target = new File("src/main/resources/data.arff");
         File original = new File("src/main/resources/original.csv");
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(target)); BufferedReader reader = new BufferedReader(new FileReader(original)))
