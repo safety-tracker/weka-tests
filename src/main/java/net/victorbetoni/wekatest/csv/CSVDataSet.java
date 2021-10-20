@@ -22,12 +22,17 @@ public class CSVDataSet {
 
         public CSVDataSet load() {
             Map<String, String[]> lines = new HashMap<>();
+            Map<Integer, String> attributesIndex = new HashMap<>();
             try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line;
                 boolean first = true;
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                 while ((line = reader.readLine()) != null) {
                     if(first) {
+                        String[] attributes = (String[]) Arrays.stream(line.split(";")).map(String::trim).map(String::toLowerCase).toArray();
+                        for(int i = 0; i<attributes.length; i++) {
+                            attributesIndex.put(i, attributes[i]);
+                        }
                         first = false;
                         continue;
                     }
@@ -36,15 +41,24 @@ public class CSVDataSet {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return new CSVDataSet(lines);
+            return new CSVDataSet(lines, attributesIndex);
         }
     }
 
     private Map<String, String[]> lines;
+    private Map<Integer, String> attributesIndex;
     private List<CSVAttribute> attributes = new ArrayList<>();
 
-    public CSVDataSet(Map<String, String[]> lines) {
+    public CSVDataSet(Map<String, String[]> lines, Map<Integer, String> attributesIndex) {
         this.lines = lines;
+        this.attributesIndex = attributesIndex;
+    }
+
+    public void normalize() {
+    }
+
+    public Map<Integer, String> getAttributesIndex() {
+        return attributesIndex;
     }
 
     public Map<String, String[]> getLines() {
