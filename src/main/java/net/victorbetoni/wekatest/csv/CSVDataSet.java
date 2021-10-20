@@ -22,7 +22,7 @@ public class CSVDataSet {
 
         public CSVDataSet load() {
             Map<String, String[]> lines = new HashMap<>();
-            Map<Integer, String> attributesIndex = new HashMap<>();
+            Map<String, Integer> attributesIndex = new HashMap<>();
             try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line;
                 boolean first = true;
@@ -31,7 +31,7 @@ public class CSVDataSet {
                     if(first) {
                         String[] attributes = (String[]) Arrays.stream(line.split(";")).map(String::trim).map(String::toLowerCase).toArray();
                         for(int i = 0; i<attributes.length; i++) {
-                            attributesIndex.put(i, attributes[i]);
+                            attributesIndex.put(attributes[i], i);
                         }
                         first = false;
                         continue;
@@ -46,18 +46,33 @@ public class CSVDataSet {
     }
 
     private Map<String, String[]> lines;
-    private Map<Integer, String> attributesIndex;
+    private Map<String, Integer> attributesIndex;
     private List<CSVAttribute> attributes = new ArrayList<>();
 
-    public CSVDataSet(Map<String, String[]> lines, Map<Integer, String> attributesIndex) {
+    public CSVDataSet(Map<String, String[]> lines, Map<String, Integer> attributesIndex) {
         this.lines = lines;
         this.attributesIndex = attributesIndex;
     }
 
     public void normalize() {
+        Map<String, String[]> buffer = new HashMap<>();
+        attributes.forEach(attribute -> {
+            int attributeIndex = attributesIndex.get(attribute.getIdentifier());
+            lines.forEach((bo, args) -> {
+                List<String> currentArgs = new ArrayList<>();
+                for (int i = 0; i < args.length; i++) {
+                    if(i == attributeIndex) {
+                        continue;
+                    }
+                    currentArgs.add(args[i]);
+                }
+                buffer.put(bo, (String[]) currentArgs.toArray());
+            });
+        });
+        lines = buffer;
     }
 
-    public Map<Integer, String> getAttributesIndex() {
+    public Map<String, Integer> getAttributesIndex() {
         return attributesIndex;
     }
 
