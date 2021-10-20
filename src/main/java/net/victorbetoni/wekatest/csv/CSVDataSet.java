@@ -1,9 +1,12 @@
 package net.victorbetoni.wekatest.csv;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +57,7 @@ public class CSVDataSet {
         this.attributesIndex = attributesIndex;
     }
 
-    public void normalize() {
+    public void removeUnusedParams() {
         Map<String, String[]> buffer = new HashMap<>();
         attributes.forEach(attribute -> {
             int attributeIndex = attributesIndex.get(attribute.getIdentifier());
@@ -70,6 +73,33 @@ public class CSVDataSet {
             });
         });
         lines = buffer;
+    }
+
+    public void write(File file) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            StringBuilder attributesLine = new StringBuilder();
+            attributes.forEach(x -> attributesLine.append(x.getIdentifier()).append(";"));
+            attributesLine.deleteCharAt(attributesLine.length());
+            writer.write(attributesLine.substring(0, attributesLine.length() - 1));
+            lines.forEach((bo, args) -> {
+                try {
+                    StringBuilder lines = new StringBuilder();
+                    lines.append(bo + ";");
+                    for (int i = 0; i < args.length; i++) {
+                        lines.append(args[i]);
+                        if(i != args.length - 1) {
+                            lines.append(";");
+                        }
+                    }
+                    writer.write(bo + ";");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Map<String, Integer> getAttributesIndex() {

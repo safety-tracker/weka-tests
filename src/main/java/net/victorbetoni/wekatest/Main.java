@@ -1,8 +1,6 @@
 package net.victorbetoni.wekatest;
 
 import weka.classifiers.bayes.NaiveBayes;
-import weka.core.DenseInstance;
-import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
